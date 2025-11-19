@@ -5,7 +5,13 @@
   <style>
     body { font-family: Arial; text-align: center; padding-top: 40px; }
     #count { font-size: 50px; margin: 20px; }
-    button { padding: 10px 20px; font-size: 18px; }
+    button {
+      padding: 12px 22px;
+      font-size: 18px;
+      margin: 10px;
+      cursor: pointer;
+    }
+    #offBtn { background-color: #ff4d4d; color: white; }
   </style>
 </head>
 <body>
@@ -15,6 +21,7 @@
   <div id="count">10</div>
 
   <button onclick="startCountdown()">Start Countdown</button>
+  <button id="offBtn" onclick="turnLedOff()">Turn LED OFF</button>
 
   <script>
     let timeLeft = 10;
@@ -38,6 +45,12 @@
     function turnLedOn() {
       fetch("http://192.168.1.8/on")
         .then(() => alert("LED TURNED ON!"))
+        .catch(err => alert("Error: " + err));
+    }
+
+    function turnLedOff() {
+      fetch("http://192.168.1.8/off")
+        .then(() => alert("LED TURNED OFF!"))
         .catch(err => alert("Error: " + err));
     }
   </script>
