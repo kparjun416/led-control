@@ -1,26 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>LED Control</title>
+  <title>LED Countdown</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding-top: 40px; }
+    #count { font-size: 50px; margin: 20px; }
+    button { padding: 10px 20px; font-size: 18px; }
+  </style>
 </head>
 <body>
-  <h1>Control LED on NodeMCU</h1>
 
-  <button onclick="ledOn()">LED ON</button>
-  <button onclick="ledOff()">LED OFF</button>
+  <h1>10-Second Countdown to Turn ON LED</h1>
+
+  <div id="count">10</div>
+
+  <button onclick="startCountdown()">Start Countdown</button>
 
   <script>
-    function ledOn() {
-      fetch("http://192.168.1.8/on")
-        .then(res => alert("LED Turned ON"))
-        .catch(err => alert("Error: " + err));
+    let timeLeft = 10;
+    let timer;
+
+    function startCountdown() {
+      timeLeft = 10;
+      document.getElementById("count").innerText = timeLeft;
+
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("count").innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          turnLedOn();
+        }
+      }, 1000);
     }
 
-    function ledOff() {
-      fetch("http://192.168.1.8/off")
-        .then(res => alert("LED Turned OFF"))
+    function turnLedOn() {
+      fetch("http://192.168.1.8/on")
+        .then(() => alert("LED TURNED ON!"))
         .catch(err => alert("Error: " + err));
     }
   </script>
+
 </body>
 </html>
