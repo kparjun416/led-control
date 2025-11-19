@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LED Control</title>
+</head>
+<body>
+  <h1>Control LED on NodeMCU</h1>
+
+  <button onclick="ledOn()">LED ON</button>
+  <button onclick="ledOff()">LED OFF</button>
+
+  <script>
+    function ledOn() {
+      fetch("http://192.168.1.8/on")
+        .then(res => alert("LED Turned ON"))
+        .catch(err => alert("Error: " + err));
+    }
+
+    function ledOff() {
+      fetch("http://192.168.1.8/off")
+        .then(res => alert("LED Turned OFF"))
+        .catch(err => alert("Error: " + err));
+    }
+  </script>
+</body>
+</html>
