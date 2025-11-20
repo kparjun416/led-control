@@ -5,23 +5,42 @@
   <style>
     body { font-family: Arial; text-align: center; padding-top: 40px; }
     #count { font-size: 50px; margin: 20px; }
-    button {
-      padding: 12px 22px;
-      font-size: 18px;
-      margin: 10px;
+
+    /* Start button */
+    #startBtn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 25px;
+      font-size: 24px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
     }
-    #offBtn { background-color: #ff4d4d; color: white; }
+
+    /* Stop button */
+    #stopBtn {
+      background-color: #ff4d4d;
+      color: white;
+      padding: 12px 22px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>താഴെയുള്ള ബട്ടൺ ക്ലിക്ക് ചെയ്യുക</h1>
+  <h1>Click Below Button</h1>
 
   <div id="count">10</div>
 
-  <button onclick="startCountdown()">Start Countdown</button>
-  <button id="offBtn" onclick="turnLedOff()">Turn LED OFF</button>
+  <!-- Start button with play symbol -->
+  <button id="startBtn" onclick="startCountdown()">▶</button>
+
+  <!-- Stop button -->
+  <button id="stopBtn" onclick="stopCountdown()">STOP</button>
 
   <script>
     let timeLeft = 10;
@@ -37,20 +56,20 @@
 
         if (timeLeft <= 0) {
           clearInterval(timer);
-          turnLedOn();
+          finishSuccess();
         }
       }, 1000);
     }
 
-    function turnLedOn() {
-      fetch("http://192.168.1.8/on")
-        .then(() => alert("LED TURNED ON!"))
-        .catch(err => alert("Error: " + err));
+    function stopCountdown() {
+      clearInterval(timer);
+      document.getElementById("count").innerText = "Stopped";
     }
 
-    function turnLedOff() {
-      fetch("http://192.168.1.8/off")
-        .then(() => alert("LED TURNED OFF!"))
+    function finishSuccess() {
+      document.getElementById("count").innerText = "Successful";
+
+      fetch("http://192.168.1.8/on")
         .catch(err => alert("Error: " + err));
     }
   </script>
