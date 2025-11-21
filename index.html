@@ -36,7 +36,7 @@
 
   <div id="count">20</div>
 
-  <!-- Start button with play symbol -->
+  <!-- Start button -->
   <button id="startBtn" onclick="startCountdown()">▶</button>
 
   <!-- Stop button -->
@@ -47,6 +47,10 @@
     let timer;
 
     function startCountdown() {
+
+      // 🔥 Tell ESP32 to start blinking LED + buzzer
+      fetch("http://192.168.1.14/start");
+
       timeLeft = 20;
       document.getElementById("count").innerText = timeLeft;
 
@@ -62,6 +66,10 @@
     }
 
     function stopCountdown() {
+
+      // 🔥 Tell ESP32 to stop
+      fetch("http://192.168.1.14/stop");
+
       clearInterval(timer);
       document.getElementById("count").innerText = "Stopped";
     }
@@ -69,6 +77,7 @@
     function finishSuccess() {
       document.getElementById("count").innerText = "Successful";
 
+      // 🔥 Turn relay on after countdown
       fetch("http://192.168.1.14/on")
         .catch(err => alert("Error: " + err));
     }
